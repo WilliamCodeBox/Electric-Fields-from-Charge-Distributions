@@ -13,8 +13,8 @@ eps0 = 8.854 * 1.0e-12  # free space permittivity
 T = Union[int, float]
 
 
-def ElecFieldOfLineCharge(rho: T, A: Vector, B: Vector,
-                          P: Vector) -> Tuple[Vector, float, Vector]:
+def ElecFieldOfFiniteLineCharge(rho: T, A: Vector, B: Vector,
+                                P: Vector) -> Tuple[Vector, float, Vector]:
     r = np.sqrt(P.x * P.x + P.y * P.y)
     alpha1 = np.arctan2(np.abs(P.z - A.z), r)
     alpha2 = np.arctan2(np.abs(P.z - B.z), r)
@@ -27,3 +27,18 @@ def ElecFieldOfLineCharge(rho: T, A: Vector, B: Vector,
     uniVec = Efield / intensity
 
     return Efield, intensity, uniVec
+
+
+def ElecFieldOfInfiniteLineCharge(rho: T,
+                                  P: Vector) -> Tuple[Vector, float, Vector]:
+    r = np.sqrt(P.x * P.x + P.y * P.y)
+
+    intensity = rho / (2.0 * np.pi * eps0 * r)
+    uniVec = Vector(1.0, 0.0, 0.0)
+    Efield = intensity * uniVec
+
+    return Efield, intensity, uniVec
+
+
+if __name__ == "__main__":
+    pass
